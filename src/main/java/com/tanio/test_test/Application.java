@@ -1,8 +1,6 @@
 package com.tanio.test_test;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RequiredArgsConstructor
 class Application {
@@ -18,6 +16,7 @@ class Application {
             if (agent.isSupportAgent()) {
                 call.answer();
                 phone.connectToAgent();
+                return;
             }
 
             else {
