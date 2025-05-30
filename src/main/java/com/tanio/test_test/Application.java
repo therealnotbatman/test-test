@@ -21,6 +21,7 @@ class Application {
 
             else {
                 call.forwardToSupport();
+                return;
             }
         }
 
@@ -28,10 +29,12 @@ class Application {
             if (agent.isSalesAgent()) {
                 call.answer();
                 phone.connectToAgent();
+                return;
             }
 
             else {
                 call.forwardToSales();
+                return;
             }
         }
 
@@ -48,18 +51,18 @@ class Phone {
 
 class Agent {
 
-    public boolean isSupportAgent() {
+    public Boolean isSupportAgent() {
         return false;
     }
 
-    public boolean isSalesAgent() {
+    public Boolean isSalesAgent() {
         return false;
     }
 }
 
 class PhoneCall {
 
-    public boolean isForSupport() {
+    public Boolean isForSupport() {
         return false;
     }
 
@@ -71,10 +74,17 @@ class PhoneCall {
 
     }
 
-    public boolean isForSales() {
+    public Boolean isForSales() {
         return false;
     }
 
     public void forwardToSales() {
+    }
+}
+
+class Anything{
+
+    public void doSomething() {
+
     }
 }
