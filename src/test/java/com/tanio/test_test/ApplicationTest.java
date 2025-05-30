@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -12,8 +13,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ApplicationTest {
 
-  @Mock
-  PhoneCall phoneCall;
+  @Spy
+  PhoneCall phoneCall = new PhoneCall();
   @Mock
   Phone phone;
   @Mock

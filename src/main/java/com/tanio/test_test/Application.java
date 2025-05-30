@@ -2,6 +2,7 @@ package com.tanio.test_test;
 
 import lombok.RequiredArgsConstructor;
 
+// TODO: Use ArgumentCaptors
 @RequiredArgsConstructor
 class Application {
     private final Agent agent;
@@ -67,7 +68,7 @@ class PhoneCall {
     }
 
     public void answer() {
-
+        System.out.println("hello");
     }
 
     public void forwardToSupport() {
