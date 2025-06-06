@@ -1,5 +1,6 @@
 package com.tanio.test_test;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,17 +25,28 @@ class ApplicationTest {
 
   @Test
   void handleNullPhoneCall() {
-    assertThatThrownBy(() -> sut.receiveCall(null))
+    assertThatThrownBy(() -> sut.receiveCallInEnglish(null, "english"))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("Call cannot be null").doesNotHaveToString("Baba");
   }
 
   @Test
-  void whenCallIsForSupportAndAgentIsSupportThenCallIsAnsweredAndPhoneConnectedToAgent() {
+  void whenCallIsForSupportAndAgentIsSupportThenCallIsAnsweredAndPhoneConnectedToAgentInEnglish() {
     when(phoneCall.isForSupport()).thenReturn(true);
-    when(agent.isSupportAgent()).thenReturn(true);
+    when(agent.isSupportAgent("english")).thenReturn(true);
 
-    sut.receiveCall(phoneCall);
+    sut.receiveCallInEnglish(phoneCall, "english");
+
+    verify(phoneCall).answer();
+    verify(phone).connectToAgent();
+  }
+
+  @Test
+  void whenCallIsForSupportAndAgentIsSupportThenCallIsAnsweredAndPhoneConnectedToAgentInItalian() {
+    when(phoneCall.isForSupport()).thenReturn(true);
+    when(agent.isSupportAgent("italian")).thenReturn(true);
+
+    sut.receiveCallInEnglish(phoneCall, "italian");
 
     verify(phoneCall).answer();
     verify(phone).connectToAgent();
@@ -43,9 +55,9 @@ class ApplicationTest {
   @Test
   void whenCallIsForSupportAndAgentIsNotSupportThenCallIsForwardedToSupport() {
     when(phoneCall.isForSupport()).thenReturn(true);
-    when(agent.isSupportAgent()).thenReturn(false);
+    when(agent.isSupportAgent("english")).thenReturn(false);
 
-    sut.receiveCall(phoneCall);
+    sut.receiveCallInEnglish(phoneCall, "english");
 
     verify(phoneCall).forwardToSupport();
     verify(phone, never()).connectToAgent(); //method is never called
@@ -57,7 +69,7 @@ class ApplicationTest {
     when(phoneCall.isForSales()).thenReturn(true);
     when(agent.isSalesAgent()).thenReturn(true);
 
-    sut.receiveCall(phoneCall);
+    sut.receiveCallInEnglish(phoneCall, "english");
 
     verify(phoneCall).answer();
     verify(phone).connectToAgent();
@@ -68,7 +80,7 @@ class ApplicationTest {
     when(phoneCall.isForSales()).thenReturn(true);
     when(agent.isSalesAgent()).thenReturn(false);
 
-    sut.receiveCall(phoneCall);
+    sut.receiveCallInEnglish(phoneCall, "english");
 
     verify(phoneCall).forwardToSales();
     verify(phone, never()).connectToAgent(); //method is never called
@@ -80,7 +92,7 @@ class ApplicationTest {
     when(phoneCall.isForSupport()).thenReturn(false);
     when(phoneCall.isForSales()).thenReturn(false);
 
-    assertThatThrownBy(() -> sut.receiveCall(phoneCall))
+    assertThatThrownBy(() -> sut.receiveCallInEnglish(phoneCall, "english"))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("We don't know where to forward this call");
   }

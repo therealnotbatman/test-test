@@ -2,19 +2,18 @@ package com.tanio.test_test;
 
 import lombok.RequiredArgsConstructor;
 
-// TODO: Use ArgumentCaptors
 @RequiredArgsConstructor
 class Application {
     private final Agent agent;
     private final Phone phone;
 
-    void receiveCall(PhoneCall call) {
+    void receiveCallInEnglish(PhoneCall call, String language) {
         if (call == null) {
             throw new IllegalArgumentException("Call cannot be null");
         }
 
         if (call.isForSupport()) {
-            if (agent.isSupportAgent()) {
+            if (agent.isSupportAgent(language)) {
                 call.answer();
                 phone.connectToAgent();
                 return;
@@ -52,7 +51,7 @@ class Phone {
 
 class Agent {
 
-    public Boolean isSupportAgent() {
+    public Boolean isSupportAgent(String language) {
         return false;
     }
 
@@ -80,6 +79,7 @@ class PhoneCall {
     }
 
     public void forwardToSales() {
+
     }
 }
 
